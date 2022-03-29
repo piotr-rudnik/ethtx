@@ -22,20 +22,20 @@ lognote_event_v1 = EventSemantics(
     name="LogNote",
     parameters=[
         ParameterSemantics(
-            parameter_name="sig", parameter_type="bytes4", components=[], indexed=True
+            name="sig", type="bytes4", components=[], indexed=True
         ),
         ParameterSemantics(
-            parameter_name="arg1", parameter_type="bytes32", components=[], indexed=True
+            name="arg1", type="bytes32", components=[], indexed=True
         ),
         ParameterSemantics(
-            parameter_name="arg2", parameter_type="bytes32", components=[], indexed=True
+            name="arg2", type="bytes32", components=[], indexed=True
         ),
         ParameterSemantics(
-            parameter_name="arg3", parameter_type="bytes32", components=[], indexed=True
+            name="arg3", type="bytes32", components=[], indexed=True
         ),
         ParameterSemantics(
-            parameter_name="data",
-            parameter_type="bytes",
+            name="data",
+            type="bytes",
             components=[],
             indexed=False,
             dynamic=True,
@@ -59,20 +59,20 @@ lognote_event_v2 = EventSemantics(
     name="LogNote",
     parameters=[
         ParameterSemantics(
-            parameter_name="sig", parameter_type="bytes4", components=[], indexed=True
+            name="sig", type="bytes4", components=[], indexed=True
         ),
         ParameterSemantics(
-            parameter_name="user", parameter_type="address", components=[], indexed=True
+            name="user", type="address", components=[], indexed=True
         ),
         ParameterSemantics(
-            parameter_name="arg1", parameter_type="bytes32", components=[], indexed=True
+            name="arg1", type="bytes32", components=[], indexed=True
         ),
         ParameterSemantics(
-            parameter_name="arg2", parameter_type="bytes32", components=[], indexed=True
+            name="arg2", type="bytes32", components=[], indexed=True
         ),
         ParameterSemantics(
-            parameter_name="data",
-            parameter_type="bytes",
+            name="data",
+            type="bytes",
             components=[],
             indexed=False,
             dynamic=True,
@@ -95,23 +95,23 @@ lognote_event_v3 = EventSemantics(
     name="LogNote",
     parameters=[
         ParameterSemantics(
-            parameter_name="sig", parameter_type="bytes4", components=[], indexed=True
+            name="sig", type="bytes4", components=[], indexed=True
         ),
         ParameterSemantics(
-            parameter_name="guy", parameter_type="address", components=[], indexed=True
+            name="guy", type="address", components=[], indexed=True
         ),
         ParameterSemantics(
-            parameter_name="foo", parameter_type="bytes32", components=[], indexed=True
+            name="foo", type="bytes32", components=[], indexed=True
         ),
         ParameterSemantics(
-            parameter_name="bar", parameter_type="bytes32", components=[], indexed=True
+            name="bar", type="bytes32", components=[], indexed=True
         ),
         ParameterSemantics(
-            parameter_name="wad", parameter_type="uint256", components=[], indexed=False
+            name="wad", type="uint256", components=[], indexed=False
         ),
         ParameterSemantics(
-            parameter_name="fax",
-            parameter_type="bytes",
+            name="fax",
+            type="bytes",
             components=[],
             indexed=False,
             dynamic=True,
@@ -135,17 +135,17 @@ logcall_event = EventSemantics(
     name="LOG_CALL",
     parameters=[
         ParameterSemantics(
-            parameter_name="sig", parameter_type="bytes4", components=[], indexed=True
+            name="sig", type="bytes4", components=[], indexed=True
         ),
         ParameterSemantics(
-            parameter_name="caller",
-            parameter_type="address",
+            name="caller",
+            type="address",
             components=[],
             indexed=True,
         ),
         ParameterSemantics(
-            parameter_name="data",
-            parameter_type="bytes",
+            name="data",
+            type="bytes",
             components=[],
             indexed=False,
             dynamic=True,

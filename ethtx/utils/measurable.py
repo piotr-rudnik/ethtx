@@ -30,7 +30,7 @@ class ExecutionTimer:
     def __exit__(self, *kwargs):
         end_time = time.time()
         exec_time = (end_time - self.start_time) * 1000
-        log.info("Executed %s in %s ms", self.part_name, exec_time)
+        # log.info("Executed %s in %s ms", self.part_name, exec_time)
 
 
 class RecursionLimit:

@@ -16,7 +16,7 @@ from functools import partial
 def token_decimals(transaction, repository, address):
     try:
         _, _, decimals, _ = repository.get_token_data(transaction.chain_id, address)
-    except:
+    except Exception as e:
         decimals = 18
 
     return decimals

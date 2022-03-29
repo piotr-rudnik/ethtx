@@ -40,8 +40,8 @@ def decode_event_parameters(data, topics, abi, anonymous):
 
         # parse indexed parameters
         for i, parameter in enumerate([p for p in parameters_abi if p.indexed]):
-            name = parameter.name
-            type = parameter.type
+            name= parameter.name
+            type= parameter.type
             # assumption that topic parameters can be only static
             if len(amended_topics) > i + 1:
                 raw_parameter = (
@@ -57,7 +57,7 @@ def decode_event_parameters(data, topics, abi, anonymous):
                         raw_parameter, type
                     )
                 topic_parameters[i] = Argument(
-                    name=name, type=type, value=parameter_value, raw=raw_parameter
+                    name=name, type=type, value=parameter_value
                 )
             else:
                 log.warning("Topics length mismatch.")
@@ -85,7 +85,7 @@ def decode_event_parameters(data, topics, abi, anonymous):
             )
 
             topic_parameters[i] = Argument(
-                name=name, type=type, value=parameter_value, raw=parameter_value
+                name=name, type=type, value=parameter_value
             )
 
         no_parameters = len(data) // 64
@@ -95,7 +95,7 @@ def decode_event_parameters(data, topics, abi, anonymous):
             parameter_value = data[64 * i : 64 * (i + 1)]
 
             data_parameters[i] = Argument(
-                name=name, type=type, value=parameter_value, raw=parameter_value
+                name=name, type=type, value=parameter_value
             )
 
     # store parameters in original ABI order
@@ -141,8 +141,7 @@ def decode_function_parameters(
                 input_parameters[i] = Argument(**parameter)
     elif stripped_input_data:
         input_parameters = [
-            Argument(name="call_data", type="bytes", value="0x" + stripped_input_data,
-                     raw="0x" + stripped_input_data)
+            Argument(name="call_data", type="bytes", value="0x" + stripped_input_data)
         ]
     else:
         input_parameters = []
@@ -179,7 +178,7 @@ def decode_function_parameters(
                 output_parameters = []
         elif output != "0x":
             output_parameters = [
-                Argument(name="output_data", type="bytes", value=output, raw=output)
+                Argument(name="output_data", type="bytes", value=output)
             ]
         else:
             output_parameters = []
@@ -313,8 +312,7 @@ def decode_dynamic_argument(argument_bytes, argument_type):
         value = argument_bytes[64 : 64 + length]
 
         if argument_type == "string":
-            hex_bytes = bytes.fromhex(value)
-            decoded_value = hex_bytes.decode("utf-8", "ignore").replace("\x00", "")
+            decoded_value = bytes.fromhex(value).decode("utf-8").replace("\x00", "")
         else:
             decoded_value = "0x" + value
     else:
@@ -362,20 +360,27 @@ def decode_struct(data, arguments_abi):
             argument_type = arguments_abi[i].type
 
             if argument_type[:5] == "tuple":
+
                 do_offset = arguments_abi[i].dynamic or any(
                     a.dynamic for a in arguments_abi[i].components
                 )
+
                 if do_offset:
                     offset = int(raw_value, 16) * 2
                     sub_arguments = data[offset:]
                 else:
                     sub_arguments = data[i * 64 :]
 
+                # try:
                 argument_value, slots = decode_tuple(
                     sub_arguments,
                     arguments_abi[i].components,
                     argument_type[5:] == "[]",
                 )
+                # except AttributeError as e:
+                #     argument_value = []
+                #     slots = 0
+                #     # raise MissingComponentsError
 
                 if do_offset:
                     slot += 1
@@ -384,31 +389,23 @@ def decode_struct(data, arguments_abi):
 
             elif argument_type in ("bytes", "string"):
                 offset = int(raw_value, 16) * 2 if raw_value else 0
-                raw_value = data[offset:]
-                argument_value = decode_dynamic_argument(raw_value, argument_type)
+                argument_value = decode_dynamic_argument(data[offset:], argument_type)
                 slot += 1
 
             elif argument_type[-1:] == "]":
                 argument_value, slot = decode_array(raw_value, argument_type, slot)
-                if argument_type[-2:] == "[]":
-                    offset = int(raw_value, 16) * 2 if raw_value else 0
-                    raw_value = data[offset:]
-
 
             else:
                 argument_value = decode_static_argument(raw_value, argument_type)
                 slot += 1
-
         else:
             argument_name = f"arg_{i + 1}"
             argument_type = "unknown"
             argument_value = "0x" + raw_value
 
-        raw_value = "0x" + raw_value
-
         if argument_type != "unknown" or argument_value != "0x":
             arguments_list.append(
-                dict(name=argument_name, type=argument_type, value=argument_value, raw=raw_value)
+                dict(name=argument_name, type=argument_type, value=argument_value)
             )
 
     return arguments_list, slot
@@ -420,8 +417,9 @@ def decode_graffiti_parameters(input_data):
     if input_data and len(input_data) > 2:
         try:
             message = bytearray.fromhex(input_data[2:]).decode()
-            input_parameters = [Argument(name="message", type="string", value=message, raw=input_data[2:])]
+            input_parameters = [Argument(name="message", type="string", value=message)]
         except Exception:
             pass
 
     return input_parameters
+

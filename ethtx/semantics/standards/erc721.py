@@ -23,14 +23,14 @@ erc721_transfer_event = EventSemantics(
     name="Transfer",
     parameters=[
         ParameterSemantics(
-            parameter_name="from", parameter_type="address", components=[], indexed=True
+            name="from", type="address", components=[], indexed=True
         ),
         ParameterSemantics(
-            parameter_name="to", parameter_type="address", components=[], indexed=True
+            name="to", type="address", components=[], indexed=True
         ),
         ParameterSemantics(
-            parameter_name="tokenId",
-            parameter_type="uint256",
+            name="tokenId",
+            type="uint256",
             components=[],
             indexed=True,
         ),
@@ -49,20 +49,20 @@ erc721_approval_event = EventSemantics(
     name="Approval",
     parameters=[
         ParameterSemantics(
-            parameter_name="owner",
-            parameter_type="address",
+            name="owner",
+            type="address",
             components=[],
             indexed=True,
         ),
         ParameterSemantics(
-            parameter_name="approved",
-            parameter_type="address",
+            name="approved",
+            type="address",
             components=[],
             indexed=True,
         ),
         ParameterSemantics(
-            parameter_name="tokenId",
-            parameter_type="uint256",
+            name="tokenId",
+            type="uint256",
             components=[],
             indexed=True,
         ),
@@ -81,20 +81,20 @@ erc721_approvalForAll_event = EventSemantics(
     name="ApprovalForAll",
     parameters=[
         ParameterSemantics(
-            parameter_name="owner",
-            parameter_type="address",
+            name="owner",
+            type="address",
             components=[],
             indexed=True,
         ),
         ParameterSemantics(
-            parameter_name="operator",
-            parameter_type="address",
+            name="operator",
+            type="address",
             components=[],
             indexed=True,
         ),
         ParameterSemantics(
-            parameter_name="approved",
-            parameter_type="bool",
+            name="approved",
+            type="bool",
             components=[],
             indexed=False,
         ),
@@ -104,15 +104,15 @@ erc721_approvalForAll_event = EventSemantics(
 erc721_balanceOf_function = FunctionSemantics(
     signature="0x70a08231",
     name="balanceOf",
-    inputs=[ParameterSemantics(parameter_name="owner", parameter_type="address")],
-    outputs=[ParameterSemantics(parameter_name="", parameter_type="uint256")],
+    inputs=[ParameterSemantics(name="owner", type="address")],
+    outputs=[ParameterSemantics(name="", type="uint256")],
 )
 
 erc721_ownerOf_function = FunctionSemantics(
     signature="0x6352211e",
     name="ownerOf",
-    inputs=[ParameterSemantics(parameter_name="tokenId", parameter_type="uint256")],
-    outputs=[ParameterSemantics(parameter_name="", parameter_type="address")],
+    inputs=[ParameterSemantics(name="tokenId", type="uint256")],
+    outputs=[ParameterSemantics(name="", type="address")],
 )
 
 erc721_ownerOf_function_transformation = {
@@ -125,9 +125,9 @@ erc721_transferFrom_function = FunctionSemantics(
     signature="0x23b872dd",
     name="transferFrom",
     inputs=[
-        ParameterSemantics(parameter_name="from", parameter_type="address"),
-        ParameterSemantics(parameter_name="to", parameter_type="address"),
-        ParameterSemantics(parameter_name="tokenId", parameter_type="uint256"),
+        ParameterSemantics(name="from", type="address"),
+        ParameterSemantics(name="to", type="address"),
+        ParameterSemantics(name="tokenId", type="uint256"),
     ],
 )
 
@@ -141,9 +141,9 @@ erc721_safeTransferFrom_function = FunctionSemantics(
     signature="0x42842e0e",
     name="safeTransferFrom",
     inputs=[
-        ParameterSemantics(parameter_name="from", parameter_type="address"),
-        ParameterSemantics(parameter_name="to", parameter_type="address"),
-        ParameterSemantics(parameter_name="tokenId", parameter_type="uint256"),
+        ParameterSemantics(name="from", type="address"),
+        ParameterSemantics(name="to", type="address"),
+        ParameterSemantics(name="tokenId", type="uint256"),
     ],
 )
 
@@ -157,11 +157,11 @@ erc721_safeTransferFrom_with_data_function = FunctionSemantics(
     signature="0xb88d4fde",
     name="safeTransferFrom",
     inputs=[
-        ParameterSemantics(parameter_name="from", parameter_type="address"),
-        ParameterSemantics(parameter_name="to", parameter_type="address"),
-        ParameterSemantics(parameter_name="tokenId", parameter_type="uint256"),
+        ParameterSemantics(name="from", type="address"),
+        ParameterSemantics(name="to", type="address"),
+        ParameterSemantics(name="tokenId", type="uint256"),
         ParameterSemantics(
-            parameter_name="data", parameter_type="bytes", components=[], dynamic=True
+            name="data", type="bytes", components=[], dynamic=True
         ),
     ],
 )
@@ -176,8 +176,8 @@ erc721_approve_function = FunctionSemantics(
     signature="0x095ea7b3",
     name="approve",
     inputs=[
-        ParameterSemantics(parameter_name="operator", parameter_type="address"),
-        ParameterSemantics(parameter_name="tokenId", parameter_type="uint256"),
+        ParameterSemantics(name="operator", type="address"),
+        ParameterSemantics(name="tokenId", type="uint256"),
     ],
 )
 
@@ -191,16 +191,16 @@ erc721_setApprovalForAll_function = FunctionSemantics(
     signature="0xa22cb465",
     name="setApprovalForAll",
     inputs=[
-        ParameterSemantics(parameter_name="address", parameter_type="address"),
-        ParameterSemantics(parameter_name="approved", parameter_type="bool"),
+        ParameterSemantics(name="address", type="address"),
+        ParameterSemantics(name="approved", type="bool"),
     ],
 )
 
 erc721_getApproved_function = FunctionSemantics(
     signature="0x081812fc",
     name="getApproved",
-    inputs=[ParameterSemantics(parameter_name="tokenId", parameter_type="uint256")],
-    outputs=[ParameterSemantics(parameter_name="", parameter_type="address")],
+    inputs=[ParameterSemantics(name="tokenId", type="uint256")],
+    outputs=[ParameterSemantics(name="", type="address")],
 )
 
 erc721_getApproved_function_transformation = {
@@ -213,10 +213,10 @@ erc721_isApprovedForAll_function = FunctionSemantics(
     signature="0xe985e9c5",
     name="isApprovedForAll",
     inputs=[
-        ParameterSemantics(parameter_name="owner", parameter_type="address"),
-        ParameterSemantics(parameter_name="operator", parameter_type="address"),
+        ParameterSemantics(name="owner", type="address"),
+        ParameterSemantics(name="operator", type="address"),
     ],
-    outputs=[ParameterSemantics(parameter_name="", parameter_type="bool")],
+    outputs=[ParameterSemantics(name="", type="bool")],
 )
 
 ERC721_EVENTS = {

@@ -108,7 +108,7 @@ block: Block = Block.from_raw(
 )
 
 # decode transaction components
-abi_decoded_events: List[Event] = ethtx.decoders.abi_decoder.decode_events(
+abi_decoded_events: List[Event] = ethtx.decoders.abi_decoder.decode_events_for_block(
     transaction.events, block.metadata, transaction.metadata
 )
 abi_decoded_calls: DecodedCall = ethtx.decoders.abi_decoder.decode_calls(
@@ -145,7 +145,7 @@ decoded_metadata: DecodedTransactionMetadata = (
         block.metadata, transaction.metadata, "mainnet"
     )
 )
-decoded_events: List[DecodedEvent] = ethtx.decoders.semantic_decoder.decode_events(
+decoded_events: List[DecodedEvent] = ethtx.decoders.semantic_decoder.decode_events_for_block(
     abi_decoded_events, decoded_metadata, proxies
 )
 

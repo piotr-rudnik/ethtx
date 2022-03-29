@@ -46,6 +46,7 @@ def connect_chain(
         provider = Web3.IPCProvider
         hook = "\\\\.\\pipe\\geth.ipc"
 
+    # raise Exception("WEB3")
     w3 = Web3(provider(hook, request_kwargs={"timeout": 600}))
 
     # middleware injection for POA chains
@@ -127,16 +128,17 @@ class Web3Provider(NodeDataProvider):
             chain=chain_id
         ):
             w3 = connect_chain(http_hook=connection.url, poa=connection.poa)
+            return w3
 
-            if w3.isConnected():
-                log.info(
-                    "Connected to: %s with latest block %s.",
-                    connection,
-                    w3.eth.block_number,
-                )
-                return w3
-            else:
-                log.warning("Connection failed to: %s", connection)
+            # if w3.isConnected():
+            #     log.info(
+            #         "Connected to: %s with latest block %s.",
+            #         connection,
+            #         w3.eth.block_number,
+            #     )
+            #     return w3
+            # else:
+            #     log.warning("Connection failed to: %s", connection)
 
         raise NodeConnectionException
 
@@ -201,7 +203,7 @@ class Web3Provider(NodeDataProvider):
     def get_receipt(self, tx_hash: str, chain_id: Optional[str] = None) -> W3Receipt:
         chain = self._get_node_connection(chain_id)
         raw_receipt: TxReceipt = chain.eth.get_transaction_receipt(tx_hash)
-        _root = raw_receipt.root if hasattr(raw_receipt, "root") else None
+        _root = raw_receipt.decoding_logger if hasattr(raw_receipt, "root") else None
 
         _logs = [
             W3Log(

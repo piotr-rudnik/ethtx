@@ -24,12 +24,17 @@ class TransformationSemantics(BaseModel):
     transformation: str = ""
 
 
+class ParameterSemanticsComponent(BaseModel):
+    name: str
+    type: str
+    dynamic: bool
+
 class ParameterSemantics(BaseModel):
-    parameter_name: str
-    parameter_type: str
-    components: list = []
-    indexed: bool = False
-    dynamic: bool = False
+    name: str
+    type: str
+    components: List[ParameterSemanticsComponent] = []
+    indexed: Optional[bool] = None
+    dynamic: Optional[bool] = None
 
 
 class EventSemantics(BaseModel):
@@ -100,11 +105,11 @@ class AddressSemantics(BaseModel):
                     components_semantics.append(decode_parameter(component))
 
             decoded_parameter = ParameterSemantics(
-                parameter_name=_parameter["parameter_name"],
-                parameter_type=_parameter["parameter_type"],
+                name=_parameter["name"],
+                type=_parameter["type"],
                 components=components_semantics,
-                indexed=_parameter["indexed"],
-                dynamic=_parameter["dynamic"],
+                indexed=_parameter.get("indexed", None),
+                dynamic=_parameter.get("dynamic", None),
             )
 
             return decoded_parameter

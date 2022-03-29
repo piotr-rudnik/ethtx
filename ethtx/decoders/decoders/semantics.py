@@ -45,8 +45,8 @@ def _decode_parameters_list(raw_parameters_list: list) -> List[ParameterSemantic
 
         parameters_list.append(
             ParameterSemantics(
-                parameter_name=raw_parameter_semantics["name"],
-                parameter_type=raw_parameter_semantics["type"],
+                name=raw_parameter_semantics["name"],
+                type=raw_parameter_semantics["type"],
                 components=components,
                 indexed=indexed,
                 dynamic=dynamic,
