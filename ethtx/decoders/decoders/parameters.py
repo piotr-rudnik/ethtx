@@ -57,7 +57,7 @@ def decode_event_parameters(data, topics, abi, anonymous):
                         raw_parameter, parameter_type
                     )
                 topic_parameters[i] = Argument(
-                    name=parameter_name, type=parameter_type, value=parameter_value
+                    name=parameter_name, type=parameter_type, value=parameter_value, raw=raw_parameter
                 )
             else:
                 log.warning("Topics length mismatch.")
@@ -85,7 +85,7 @@ def decode_event_parameters(data, topics, abi, anonymous):
             )
 
             topic_parameters[i] = Argument(
-                name=parameter_name, type=parameter_type, value=parameter_value
+                name=parameter_name, type=parameter_type, value=parameter_value, raw=parameter_value
             )
 
         no_parameters = len(data) // 64
@@ -141,7 +141,7 @@ def decode_function_parameters(
                 input_parameters[i] = Argument(**parameter)
     elif stripped_input_data:
         input_parameters = [
-            Argument(name="call_data", type="bytes", value="0x" + stripped_input_data)
+            Argument(name="call_data", type="bytes", value="0x" + stripped_input_data, raw="0x" + stripped_input_data)
         ]
     else:
         input_parameters = []
@@ -178,7 +178,7 @@ def decode_function_parameters(
                 output_parameters = []
         elif output != "0x":
             output_parameters = [
-                Argument(name="output_data", type="bytes", value=output)
+                Argument(name="output_data", type="bytes", value=output, raw=output)
             ]
         else:
             output_parameters = []
@@ -388,6 +388,9 @@ def decode_struct(data, arguments_abi):
 
             elif argument_type[-1:] == "]":
                 argument_value, slot = decode_array(raw_value, argument_type, slot)
+                if argument_type[-2:] == "[]":
+                    offset = int(raw_value, 16) * 2 if raw_value else 0
+                    raw_value = data[offset:]
 
             else:
                 argument_value = decode_static_argument(raw_value, argument_type)
@@ -397,10 +400,12 @@ def decode_struct(data, arguments_abi):
             argument_type = "unknown"
             argument_value = "0x" + raw_value
 
+        raw_value = "0x" + raw_value
         if argument_type != "unknown" or argument_value != "0x":
             arguments_list.append(
-                dict(name=argument_name, type=argument_type, value=argument_value)
+                dict(name=argument_name, type=argument_type, value=argument_value, raw=raw_value)
             )
+
 
     return arguments_list, slot
 
@@ -411,7 +416,7 @@ def decode_graffiti_parameters(input_data):
     if input_data and len(input_data) > 2:
         try:
             message = bytearray.fromhex(input_data[2:]).decode()
-            input_parameters = [Argument(name="message", type="string", value=message)]
+            input_parameters = [Argument(name="message", type="string", value=message, raw=input_data[2:])]
         except Exception:
             pass
 
